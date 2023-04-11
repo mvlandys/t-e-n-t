@@ -32,22 +32,22 @@ Database migrations use TypeORM, see more detailed documentation here: https://t
 import { MigrationInterface, QueryRunner, Table } from  "typeorm"
 
 export  class  CreateClientsTable1681087352933  implements  MigrationInterface {
-	public  async  up(queryRunner: QueryRunner): Promise<void> {
-		const  usersTable = new  Table({
-			name:  "clients",
-			columns: [
-				{ name: "id", type: "int", isPrimary: true, isGenerated: true, generationStrategy: 'increment' },
-				{ name: "first_name", type: "varchar", length: '255' },
-				{ name: "last_name", type: "varchar", length: '255' },
-			]
-		});
+    public  async  up(queryRunner: QueryRunner): Promise<void> {
+        const  usersTable = new  Table({
+            name:  "clients",
+            columns: [
+                { name: "id", type: "int", isPrimary: true, isGenerated: true, generationStrategy: 'increment' },
+                { name: "first_name", type: "varchar", length: '255' },
+                { name: "last_name", type: "varchar", length: '255' },
+            ]
+        });
 
-		await  queryRunner.createTable(usersTable, true);
-	}
+        await  queryRunner.createTable(usersTable, true);
+    }
 
-	public  async  down(queryRunner: QueryRunner): Promise<void> {
-		await  queryRunner.dropTable('clients');
-	}
+    public  async  down(queryRunner: QueryRunner): Promise<void> {
+        await  queryRunner.dropTable('clients');
+    }
 }
 ```
 
@@ -77,7 +77,7 @@ export default class ClientSeeder implements Seeder {
         clientB.last_name = "Doe";
         await clientA.save();
 
-		const clientA = new Client();
+        const clientA = new Client();
         clientA.first_name = "Jane";
         clientB.last_name = "Citizen";
         await clientA.save();
@@ -94,13 +94,13 @@ Routes are defined using the express router api - https://expressjs.com/en/guide
 **Example routes:**
 ```ts
 const  defineRoutes = () => {
-	// ...Previously defined routes 
-	const clientController = new ClientController();
-	const clientValidator = new ClientValidator();
-	router.get("/clients/list", clientController.listClients);
-	router.post("/clients/new", [protectedRoute, clientValidator.newClientValidation()], clientController.newClient);
-	
-	return  router;
+    // ...Previously defined routes 
+    const clientController = new ClientController();
+    const clientValidator = new ClientValidator();
+    router.get("/clients/list", clientController.listClients);
+    router.post("/clients/new", [protectedRoute, clientValidator.newClientValidation()], clientController.newClient);
+
+    return  router;
 }
 ```
 
@@ -110,18 +110,18 @@ Controllers are basic classes that inherit from a base controller class, these a
 **Example controller:**
 ```ts
 class ClientController extends BaseController {
-	/**
-	 * List all clients
-	 * GET: /clients/list
-	 */ 
-	public listClients = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-		// Retrieve clients from the db using a repository class
-		const clientRepos = new ClientRepository();
-		const clients = await clientRepos.getAllClients();
-	
-		// Return JSON to the user
-		return response.send({ clients: clients });
-	}
+    /**
+     * List all clients
+     * GET: /clients/list
+     */ 
+    public listClients = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        // Retrieve clients from the db using a repository class
+        const clientRepos = new ClientRepository();
+        const clients = await clientRepos.getAllClients();
+    
+        // Return JSON to the user
+        return response.send({ clients: clients });
+    }
 }
 ```
 
@@ -133,12 +133,12 @@ Repositories are basic classes that contain functions that return data from the 
 import { Client } from  "../entities/client.entity"
 
 export default class ClientRepository {
-	// Get all clients
-	public getAllClients = async (): Promise<Client[]> => {
-		const clients = await Client.find();
+    // Get all clients
+    public getAllClients = async (): Promise<Client[]> => {
+        const clients = await Client.find();
 
-		return clients;
-	}
+        return clients;
+    }
 }
 ```
 
